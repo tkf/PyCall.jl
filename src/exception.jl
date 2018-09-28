@@ -16,7 +16,7 @@ struct PyError <: Exception
         exc = Array{PyPtr}(undef, 3)
         pexc = convert(UInt, pointer(exc))
         # equivalent of passing C pointers &exc[1], &exc[2], &exc[3]:
-        ccall((@pysym :PyErr_Fetch), Cvoid, (UInt,UInt,UInt),
+        @pyccall(:PyErr_Fetch, Cvoid, (UInt,UInt,UInt),
               pexc, pexc + sizeof(PyPtr), pexc + 2*sizeof(PyPtr))
         ccall((@pysym :PyErr_NormalizeException), Cvoid, (UInt,UInt,UInt),
               pexc, pexc + sizeof(PyPtr), pexc + 2*sizeof(PyPtr))

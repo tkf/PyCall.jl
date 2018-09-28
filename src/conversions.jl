@@ -259,7 +259,7 @@ eltype(::Type{PyVector{T}}) where {T} = pyany_toany(T)
 size(a::PyVector) = (length(a.o),)
 
 getindex(a::PyVector) = getindex(a, 1)
-getindex(a::PyVector{T}, i::Integer) where {T} = convert(T, PyObject(@pycheckn ccall((@pysym :PySequence_GetItem), PyPtr, (PyPtr, Int), a, i-1)))
+getindex(a::PyVector{T}, i::Integer) where {T} = convert(T, PyObject(@pycheckn @pyccall(:PySequence_GetItem, PyPtr, (PyPtr, Int), a, i-1)))
 
 setindex!(a::PyVector, v) = setindex!(a, v, 1)
 function setindex!(a::PyVector, v, i::Integer)

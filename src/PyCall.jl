@@ -189,7 +189,7 @@ PyObject(o::PyObject) = o
 include("exception.jl")
 include("gui.jl")
 
-pytypeof(o::PyObject) = ispynull(o) ? throw(ArgumentError("NULL PyObjects have no Python type")) : PyObject(@pycheckn ccall(@pysym(:PyObject_Type), PyPtr, (PyPtr,), o))
+pytypeof(o::PyObject) = ispynull(o) ? throw(ArgumentError("NULL PyObjects have no Python type")) : PyObject(@pycheckn @pyccall(:PyObject_Type, PyPtr, (PyPtr,), o))
 
 #########################################################################
 

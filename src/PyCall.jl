@@ -795,7 +795,7 @@ popfirst!(a::PyObject) = splice!(a, 1)
 
 function empty!(a::PyObject)
     for i in length(a):-1:1
-        @pycheckz ccall((@pysym :PySequence_DelItem), Cint, (PyPtr, Int), a, i-1)
+        @pycheckz @pyccall(:PySequence_DelItem, Cint, (PyPtr, Int), a, i-1)
     end
     a
 end

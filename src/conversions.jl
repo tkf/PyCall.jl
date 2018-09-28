@@ -351,7 +351,7 @@ function py2array(T, A::Array{TA,N}, o::PyObject,
         end
         s = stride(A, dim)
         for j = 0:len-1
-            py2array(T, A, PyObject(ccall((@pysym :PySequence_GetItem),
+            py2array(T, A, PyObject(@pyccall(:PySequence_GetItem,
                                        PyPtr, (PyPtr, Int), o, j)),
                      dim+1, i+j*s)
         end

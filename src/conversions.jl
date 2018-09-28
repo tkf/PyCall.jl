@@ -458,9 +458,9 @@ convert(::Type{PyDict}, o::PyObject) = PyDict(o)
 convert(::Type{PyDict{K,V}}, o::PyObject) where {K,V} = PyDict{K,V}(o)
 unsafe_convert(::Type{PyPtr}, d::PyDict) = d.o.o
 
-haskey(d::PyDict{K,V,true}, key) where {K,V} = 1 == ccall(@pysym(:PyDict_Contains), Cint, (PyPtr, PyPtr), d, PyObject(key))
-keys(::Type{T}, d::PyDict{K,V,true}) where {T,K,V} = convert(Vector{T}, PyObject(@pycheckn ccall((@pysym :PyDict_Keys), PyPtr, (PyPtr,), d)))
-values(::Type{T}, d::PyDict{K,V,true}) where {T,K,V} = convert(Vector{T}, PyObject(@pycheckn ccall((@pysym :PyDict_Values), PyPtr, (PyPtr,), d)))
+haskey(d::PyDict{K,V,true}, key) where {K,V} = 1 == @pyccall(:PyDict_Contains, Cint, (PyPtr, PyPtr), d, PyObject(key))
+keys(::Type{T}, d::PyDict{K,V,true}) where {T,K,V} = convert(Vector{T}, PyObject(@pycheckn @pyccall(:PyDict_Keys, PyPtr, (PyPtr,), d)))
+values(::Type{T}, d::PyDict{K,V,true}) where {T,K,V} = convert(Vector{T}, PyObject(@pycheckn @pyccall(:PyDict_Values, PyPtr, (PyPtr,), d)))
 
 keys(::Type{T}, d::PyDict{K,V,false}) where {T,K,V} = convert(Vector{T}, pycall(d.o["keys"], PyObject))
 values(::Type{T}, d::PyDict{K,V,false}) where {T,K,V} = convert(Vector{T}, pycall(d.o["values"], PyObject))

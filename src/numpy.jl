@@ -50,7 +50,7 @@ function npyinitialize()
         error("numpy.core.multiarray required for multidimensional Array conversions - ", e)
     end
     if pyversion.major < 3
-        PyArray_API = @pycheck ccall((@pysym :PyCObject_AsVoidPtr),
+        PyArray_API = @pycheck @pyccall(:PyCObject_AsVoidPtr,
                                      Ptr{Ptr{Cvoid}}, (PyPtr,),
                                      npy_multiarray["_ARRAY_API"])
     else

@@ -69,7 +69,7 @@ convert(::Type{Nothing}, po::PyObject) = nothing
 function PyObject(s::AbstractString)
     sb = String(s)
     if pyunicode_literals || !isascii(sb)
-        PyObject(@pycheckn ccall(@pysym(PyUnicode_DecodeUTF8),
+        PyObject(@pycheckn @pyccall(PyUnicode_DecodeUTF8,
                                  PyPtr, (Ptr{UInt8}, Int, Ptr{UInt8}),
                                  sb, sizeof(sb), C_NULL))
     else

@@ -16,7 +16,9 @@ for (op,py) in ((:+,:PyNumber_Add), (:-,:PyNumber_Subtract), (:*,:PyNumber_Multi
     end
 end
 
-^(a::PyObject, b::PyObject) = PyObject(@pycheckn ccall((@pysym :PyNumber_Power), PyPtr, (PyPtr, PyPtr, PyPtr), a, b, pynothing[]))
+^(a::PyObject, b::PyObject) = PyObject(@pycheckn disable_sigint() do
+                                       ccall((@pysym :PyNumber_Power), PyPtr, (PyPtr, PyPtr, PyPtr), a, b, pynothing[])
+                                       end)
 ^(a::PyObject, b) = a^PyObject(b)
 ^(a, b::PyObject) = PyObject(a)^b
 ^(a::PyObject, b::Integer) = a^PyObject(b)

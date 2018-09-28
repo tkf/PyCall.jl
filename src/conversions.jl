@@ -445,7 +445,7 @@ mutable struct PyDict{K,V,isdict} <: AbstractDict{K,V}
 end
 
 PyDict{K,V}(o::PyObject) where {K,V} = PyDict{K,V,pyisinstance(o, @pyglobalobj :PyDict_Type)}(o)
-PyDict{K,V}() where {K,V} = PyDict{K,V,true}(PyObject(@pycheckn ccall((@pysym :PyDict_New), PyPtr, ())))
+PyDict{K,V}() where {K,V} = PyDict{K,V,true}(PyObject(@pycheckn @pyccall(:PyDict_New, PyPtr, ())))
 
 PyDict(o::PyObject) = PyDict{PyAny,PyAny}(o)
 PyObject(d::PyDict) = d.o

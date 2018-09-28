@@ -4,10 +4,8 @@
 # Iterating over Python objects in Julia
 
 function _start(po::PyObject)
-    sigatomic_begin()
-    try
-        o = PyObject(@pycheckn ccall((@pysym :PyObject_GetIter), PyPtr, (PyPtr,), po))
-        nxt = PyObject(@pycheck ccall((@pysym :PyIter_Next), PyPtr, (PyPtr,), o))
+    o = PyObject(@pycheckn @pyccall(:PyObject_GetIter, PyPtr, (PyPtr,), po))
+    nxt = PyObject(@pycheck @pyccall(:PyIter_Next, PyPtr, (PyPtr,), o))
 
         return (nxt,o)
     finally

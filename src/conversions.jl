@@ -597,7 +597,7 @@ end
 function PyObject(d::AbstractDict)
     o = PyObject(@pycheckn @pyccall(:PyDict_New, PyPtr, ()))
     for k in keys(d)
-        @pycheckz ccall((@pysym :PyDict_SetItem), Cint, (PyPtr,PyPtr,PyPtr),
+        @pycheckz @pyccall(:PyDict_SetItem, Cint, (PyPtr,PyPtr,PyPtr),
                          o, PyObject(k), PyObject(d[k]))
     end
     return o

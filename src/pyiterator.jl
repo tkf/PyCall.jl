@@ -21,13 +21,8 @@ end
 else
     function Base.iterate(po::PyObject, s=_start(po))
         ispynull(s[1]) && return nothing
-        sigatomic_begin()
-        try
-            nxt = PyObject(@pycheck ccall((@pysym :PyIter_Next), PyPtr, (PyPtr,), s[2]))
-            return (convert(PyAny, s[1]), (nxt, s[2]))
-        finally
-            sigatomic_end()
-        end
+        nxt = PyObject(@pycheck @pyccall(:PyIter_Next, PyPtr, (PyPtr,), s[2]))
+        return (convert(PyAny, s[1]), (nxt, s[2]))
     end
 end
 

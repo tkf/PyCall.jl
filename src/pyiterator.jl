@@ -7,10 +7,7 @@ function _start(po::PyObject)
     o = PyObject(@pycheckn @pyccall(:PyObject_GetIter, PyPtr, (PyPtr,), po))
     nxt = PyObject(@pycheck @pyccall(:PyIter_Next, PyPtr, (PyPtr,), o))
 
-        return (nxt,o)
-    finally
-        sigatomic_end()
-    end
+    return (nxt,o)
 end
 @static if VERSION < v"0.7.0-DEV.5126" # julia#25261
     Base.start(po::PyObject) = _start(po)

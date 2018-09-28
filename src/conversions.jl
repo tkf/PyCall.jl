@@ -36,7 +36,7 @@ PyObject(n::Nothing) = pyerr_check("PyObject(nothing)", pyincref(pynothing[]))
         T(@pycheck @pyccall(:PyInt_AsSsize_t, Int, (PyPtr,), po))
 elseif pyversion < v"3.2"
     convert(::Type{T}, po::PyObject) where {T<:Integer} =
-        T(@pycheck ccall(@pysym(:PyLong_AsLongLong), Clonglong, (PyPtr,), po))
+        T(@pycheck @pyccall(:PyLong_AsLongLong, Clonglong, (PyPtr,), po))
 else
     function convert(::Type{T}, po::PyObject) where {T<:Integer}
         overflow = Ref{Cint}()

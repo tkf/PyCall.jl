@@ -134,7 +134,7 @@ function convert(::Type{Ptr{Cvoid}}, po::PyObject)
         pynothing_query(v) == Nothing ? C_NULL :
           convert(Ptr{Cvoid}, convert(UInt, po["value"]))
     elseif pyisinstance(po, @pyglobalobj(:PyCapsule_Type))
-        @pycheck ccall((@pysym :PyCapsule_GetPointer),
+        @pycheck @pyccall(:PyCapsule_GetPointer,
                        Ptr{Cvoid}, (PyPtr,Ptr{UInt8}),
                        po, ccall((@pysym :PyCapsule_GetName),
                                  Ptr{UInt8}, (PyPtr,), po))

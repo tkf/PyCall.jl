@@ -242,7 +242,7 @@ function pystring(o::PyObject)
     if ispynull(o)
         return "NULL"
     else
-        s = ccall((@pysym :PyObject_Repr), PyPtr, (PyPtr,), o)
+        s = @pyccall(:PyObject_Repr, PyPtr, (PyPtr,), o)
         if (s == C_NULL)
             pyerr_clear()
             s = ccall((@pysym :PyObject_Str), PyPtr, (PyPtr,), o)

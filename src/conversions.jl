@@ -311,7 +311,7 @@ function array2py(A::AbstractArray{T, N}, dim::Integer, i::Integer) where {T, N}
     else # dim < N: store multidimensional array as list of lists
         len = size(A, dim)
         s = stride(A, dim)
-        o = PyObject(@pycheckn ccall((@pysym :PyList_New), PyPtr, (Int,), len))
+        o = PyObject(@pycheckn @pyccall(:PyList_New, PyPtr, (Int,), len))
         for j = 0:len-1
             oi = array2py(A, dim+1, i+j*s)
             @pycheckz ccall((@pysym :PyList_SetItem), Cint, (PyPtr,Int,PyPtr),

@@ -301,7 +301,7 @@ function getindex(o::PyObject, s::AbstractString)
     if ispynull(o)
         throw(ArgumentError("ref of NULL PyObject"))
     end
-    p = ccall((@pysym :PyObject_GetAttrString), PyPtr, (PyPtr, Cstring), o, s)
+    p = @pyccall(:PyObject_GetAttrString, PyPtr, (PyPtr, Cstring), o, s)
     if p == C_NULL
         pyerr_clear()
         throw(KeyError(s))

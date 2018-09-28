@@ -376,7 +376,7 @@ function pyarray_dims(o::PyObject, forcelist=true)
         return (len,)
     end
     for j = 1:len-1
-        dims = pyarray_dims(PyObject(ccall((@pysym :PySequence_GetItem),
+        dims = pyarray_dims(PyObject(@pyccall(:PySequence_GetItem,
                                            PyPtr, (PyPtr, Int), o, j)),
                             false)
         if dims != dims0

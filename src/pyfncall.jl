@@ -18,7 +18,7 @@ friendly format but you don't have the python tuple to hold the arguments
 """
 function _pycall!(ret::PyObject, o::Union{PyObject,PyPtr}, args, nargs::Int=length(args),
                   kw::Union{Ptr{Cvoid}, PyObject}=C_NULL)
-    pyargsptr = @pycheckn ccall((@pysym :PyTuple_New), PyPtr, (Int,), nargs)
+    pyargsptr = @pycheckn @pyccall(:PyTuple_New, PyPtr, (Int,), nargs)
     try
         for i = 1:nargs
             pyarg = PyObject(args[i])

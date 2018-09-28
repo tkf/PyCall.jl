@@ -38,7 +38,7 @@ function pyembed(po::PyObject, jo::Any)
                                        (Ref{PyMethodDef}, Ptr{Cvoid}, Ptr{Cvoid}),
                                        weakref_callback_meth, C_NULL, C_NULL)))
     end
-    wo = @pycheckn ccall((@pysym :PyWeakref_NewRef), PyPtr, (PyPtr,PyPtr),
+    wo = @pycheckn @pyccall(:PyWeakref_NewRef, PyPtr, (PyPtr,PyPtr),
                          po, weakref_callback_obj)
     pycall_gc[wo] = jo
     return po

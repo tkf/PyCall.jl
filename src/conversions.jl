@@ -23,7 +23,7 @@ PyObject(b::Bool) = PyObject(@pycheckn @pyccall(:PyBool_FromLong,
 PyObject(r::Real) = PyObject(@pycheckn @pyccall(:PyFloat_FromDouble,
                                              PyPtr, (Cdouble,), r))
 
-PyObject(c::Complex) = PyObject(@pycheckn ccall((@pysym :PyComplex_FromDoubles),
+PyObject(c::Complex) = PyObject(@pycheckn @pyccall(:PyComplex_FromDoubles,
                                                 PyPtr, (Cdouble,Cdouble),
                                                 real(c), imag(c)))
 

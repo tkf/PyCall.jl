@@ -128,7 +128,7 @@ function pydecref(o::PyObject)
 end
 
 function pyincref_(o::Union{PyPtr,PyObject})
-    ccall((@pysym :Py_IncRef), Cvoid, (PyPtr,), o)
+    @pyccall(:Py_IncRef, Cvoid, (PyPtr,), o)
     return o
 end
 

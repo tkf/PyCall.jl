@@ -418,7 +418,7 @@ pyjlwrap_type(init::Function, name::AbstractString) =
 #  to wrap isbits types in Python objects anyway.)
 function pyjlwrap_new(pyT::PyTypeObject, value::Any)
     # TODO change to `Ref{PyTypeObject}` when 0.6 is dropped.
-    o = PyObject(@pycheckn ccall((@pysym :_PyObject_New),
+    o = PyObject(@pycheckn @pyccall(:_PyObject_New,
                                  PyPtr, (Any,), pyT))
     p = convert(Ptr{Ptr{Cvoid}}, o.o)
     if isimmutable(value)

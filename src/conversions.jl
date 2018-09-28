@@ -464,7 +464,7 @@ values(::Type{T}, d::PyDict{K,V,true}) where {T,K,V} = convert(Vector{T}, PyObje
 
 keys(::Type{T}, d::PyDict{K,V,false}) where {T,K,V} = convert(Vector{T}, pycall(d.o["keys"], PyObject))
 values(::Type{T}, d::PyDict{K,V,false}) where {T,K,V} = convert(Vector{T}, pycall(d.o["values"], PyObject))
-haskey(d::PyDict{K,V,false}, key) where {K,V} = 1 == ccall(@pysym(:PyMapping_HasKey), Cint, (PyPtr, PyPtr), d, PyObject(key))
+haskey(d::PyDict{K,V,false}, key) where {K,V} = 1 == @pyccall(:PyMapping_HasKey, Cint, (PyPtr, PyPtr), d, PyObject(key))
 
 similar(d::PyDict{K,V}) where {K,V} = Dict{pyany_toany(K),pyany_toany(V)}()
 eltype(::Type{PyDict{K,V}}) where {K,V} = Pair{pyany_toany(K),pyany_toany(V)}

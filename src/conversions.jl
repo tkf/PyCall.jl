@@ -523,8 +523,8 @@ function empty!(d::PyDict{K,V,false}) where {K,V}
     return d
 end
 
-length(d::PyDict{K,V,true}) where {K,V} = @pycheckz ccall(@pysym(:PyDict_Size), Int, (PyPtr,), d)
-length(d::PyDict{K,V,false}) where {K,V} = @pycheckz ccall(@pysym(:PyObject_Size), Int, (PyPtr,), d)
+length(d::PyDict{K,V,true}) where {K,V} = @pycheckz @pyccall(:PyDict_Size, Int, (PyPtr,), d)
+length(d::PyDict{K,V,false}) where {K,V} = @pycheckz @pyccall(:PyObject_Size, Int, (PyPtr,), d)
 isempty(d::PyDict) = length(d) == 0
 
 

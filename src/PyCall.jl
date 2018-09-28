@@ -283,7 +283,7 @@ function hash(o::PyObject)
         # since on 64-bit Windows the Python 2.x hash is only 32 bits
         hashsalt(unsafe_pyjlwrap_to_objref(o.o))
     else
-        h = ccall((@pysym :PyObject_Hash), Py_hash_t, (PyPtr,), o)
+        h = @pyccall(:PyObject_Hash, Py_hash_t, (PyPtr,), o)
         if h == -1 # error
             pyerr_clear()
             return hashsalt(o.o)

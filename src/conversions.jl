@@ -345,7 +345,7 @@ function py2array(T, A::Array{TA,N}, o::PyObject,
         end
         return A
     else # dim < N: recursively extract list of lists into A
-        len = @pycheckz ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+        len = @pycheckz @pyccall(:PySequence_Size, Int, (PyPtr,), o)
         if len != size(A, dim)
             error("dimension mismatch in py2array")
         end

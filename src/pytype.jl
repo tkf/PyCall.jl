@@ -379,7 +379,7 @@ function pyjlwrap_getattr(self_::PyPtr, attr__::PyPtr)
             if fidx != 0
                 return pyreturn(getfield(f, fidx))
             else
-                return ccall(@pysym(:PyObject_GenericGetAttr), PyPtr, (PyPtr,PyPtr), self_, attr__)
+                return @pyccall(:PyObject_GenericGetAttr, PyPtr, (PyPtr,PyPtr), self_, attr__)
             end
         end
     catch e

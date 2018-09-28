@@ -369,7 +369,7 @@ function pyarray_dims(o::PyObject, forcelist=true)
     if len == 0
         return (0,)
     end
-    dims0 = pyarray_dims(PyObject(ccall((@pysym :PySequence_GetItem),
+    dims0 = pyarray_dims(PyObject(@pyccall(:PySequence_GetItem,
                                         PyPtr, (PyPtr, Int), o, 0)),
                          false)
     if isempty(dims0) # not a nested sequence

@@ -53,7 +53,7 @@ else
 end
 
 convert(::Type{Bool}, po::PyObject) =
-    0 != @pycheck ccall(@pysym(:PyObject_IsTrue), Cint, (PyPtr,), po)
+    0 != @pycheck @pyccall(:PyObject_IsTrue, Cint, (PyPtr,), po)
 
 convert(::Type{T}, po::PyObject) where {T<:Real} =
     T(@pycheck ccall(@pysym(:PyFloat_AsDouble), Cdouble, (PyPtr,), po))

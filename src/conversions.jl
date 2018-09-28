@@ -303,7 +303,7 @@ function array2py(A::AbstractArray{T, N}, dim::Integer, i::Integer) where {T, N}
         o = PyObject(@pycheckn @pyccall(:PyList_New, PyPtr, (Int,), len))
         for j = 0:len-1
             oi = PyObject(A[i+j*s])
-            @pycheckz ccall((@pysym :PyList_SetItem), Cint, (PyPtr,Int,PyPtr),
+            @pycheckz @pyccall(:PyList_SetItem, Cint, (PyPtr,Int,PyPtr),
                              o, j, oi)
             pyincref(oi) # PyList_SetItem steals the reference
         end

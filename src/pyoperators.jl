@@ -64,7 +64,7 @@ for (op,py) in ((:<, Py_LT), (:<=, Py_LE), (:(==), Py_EQ), (:!=, Py_NE),
                        unsafe_pyjlwrap_to_objref(o2.o))
         else
             if $(op == :isless || op == :isequal)
-                return Bool(@pycheckz ccall((@pysym :PyObject_RichCompareBool), Cint,
+                return Bool(@pycheckz @pyccall(:PyObject_RichCompareBool, Cint,
                                             (PyPtr, PyPtr, Cint), o1, o2, $py))
             else # other operations may return a PyObject
                 return PyAny(PyObject(@pycheckn ccall((@pysym :PyObject_RichCompare), PyPtr,

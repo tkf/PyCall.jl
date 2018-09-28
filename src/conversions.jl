@@ -263,7 +263,7 @@ getindex(a::PyVector{T}, i::Integer) where {T} = convert(T, PyObject(@pycheckn @
 
 setindex!(a::PyVector, v) = setindex!(a, v, 1)
 function setindex!(a::PyVector, v, i::Integer)
-    @pycheckz ccall((@pysym :PySequence_SetItem), Cint, (PyPtr, Int, PyPtr), a, i-1, PyObject(v))
+    @pycheckz @pyccall(:PySequence_SetItem, Cint, (PyPtr, Int, PyPtr), a, i-1, PyObject(v))
     v
 end
 

@@ -136,7 +136,7 @@ function convert(::Type{Ptr{Cvoid}}, po::PyObject)
     elseif pyisinstance(po, @pyglobalobj(:PyCapsule_Type))
         @pycheck @pyccall(:PyCapsule_GetPointer,
                        Ptr{Cvoid}, (PyPtr,Ptr{UInt8}),
-                       po, ccall((@pysym :PyCapsule_GetName),
+                       po, @pyccall(:PyCapsule_GetName,
                                  Ptr{UInt8}, (PyPtr,), po))
     else
         convert(Ptr{Cvoid}, convert(UInt, po))

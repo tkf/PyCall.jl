@@ -30,7 +30,7 @@ for (op,py) in ((:+,:PyNumber_InPlaceAdd), (:-,:PyNumber_InPlaceSubtract), (:*,:
     qpy = QuoteNode(py)
     @eval function Base.broadcast!(::typeof($op), a::PyObject, a′::PyObject, b)
         a.o == a′.o || throw(MethodError(broadcast!, ($op, a, a', b)))
-        PyObject(@pycheckn ccall((@pysym $qpy), PyPtr, (PyPtr, PyPtr), a,PyObject(b)))
+        PyObject(@pycheckn @pyccall($qpy, PyPtr, (PyPtr, PyPtr), a,PyObject(b)))
     end
 end
 

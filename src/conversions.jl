@@ -178,7 +178,7 @@ convert(::Type{Function}, po::PyObject) =
 
 function PyObject(t::Union{Tuple,Pair})
     len = lastindex(t) # lastindex, not length, because of julia#14924
-    o = PyObject(@pycheckn ccall((@pysym :PyTuple_New), PyPtr, (Int,), len))
+    o = PyObject(@pycheckn @pyccall(:PyTuple_New, PyPtr, (Int,), len))
     for i = 1:len
         oi = PyObject(t[i])
         @pycheckz ccall((@pysym :PyTuple_SetItem), Cint, (PyPtr,Int,PyPtr),

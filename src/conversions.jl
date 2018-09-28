@@ -762,8 +762,8 @@ function pysequence_query(o::PyObject)
     # scipy define "fake" sequence types with intmax lengths and other
     # problems
     if pyisinstance(o, @pyglobalobj :PyTuple_Type)
-        len = @pycheckz ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
-        return typetuple(pytype_query(PyObject(ccall((@pysym :PySequence_GetItem), PyPtr, (PyPtr,Int), o,i-1)), PyAny) for i = 1:len)
+        len = @pycheckz @pyccall(:PySequence_Size, Int, (PyPtr,), o)
+        return typetuple(pytype_query(PyObject(@pyccall(:PySequence_GetItem, PyPtr, (PyPtr,Int), o,i-1)), PyAny) for i = 1:len)
     elseif pyisinstance(o, pyxrange[])
         return AbstractRange
     elseif ispybytearray(o)

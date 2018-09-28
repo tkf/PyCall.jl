@@ -300,7 +300,7 @@ function array2py(A::AbstractArray{T, N}, dim::Integer, i::Integer) where {T, N}
     elseif dim == N # special case last dim to coarsen recursion leaves
         len = size(A, dim)
         s = N == 1 ? 1 : stride(A, dim)
-        o = PyObject(@pycheckn ccall((@pysym :PyList_New), PyPtr, (Int,), len))
+        o = PyObject(@pycheckn @pyccall(:PyList_New, PyPtr, (Int,), len))
         for j = 0:len-1
             oi = PyObject(A[i+j*s])
             @pycheckz ccall((@pysym :PyList_SetItem), Cint, (PyPtr,Int,PyPtr),

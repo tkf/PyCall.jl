@@ -10,7 +10,7 @@ for (op,py) in ((:+,:PyNumber_Add), (:-,:PyNumber_Subtract), (:*,:PyNumber_Multi
     qpy = QuoteNode(py)
     @eval begin
         $op(a::PyObject, b::PyObject) =
-            PyObject(@pycheckn ccall((@pysym $qpy), PyPtr, (PyPtr, PyPtr), a, b))
+            PyObject(@pycheckn @pyccall($qpy, PyPtr, (PyPtr, PyPtr), a, b))
         $op(a::PyObject, b) = $op(a, PyObject(b))
         $op(a, b::PyObject) = $op(PyObject(a), b)
     end

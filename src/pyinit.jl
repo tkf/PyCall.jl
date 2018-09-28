@@ -135,7 +135,7 @@ function __init__()
         # some modules (e.g. IPython) expect sys.argv to be set
         @static if VERSION >= v"0.7.0-DEV.1963"
             ref0 = Ref{UInt32}(0)
-            GC.@preserve ref0 ccall(@pysym(:PySys_SetArgvEx), Cvoid,
+            GC.@preserve ref0 @pyccall(:PySys_SetArgvEx, Cvoid,
                                          (Cint, Ref{Ptr{Cvoid}}, Cint),
                                          1, pointer_from_objref(ref0), 0)
         else

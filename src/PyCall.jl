@@ -727,7 +727,7 @@ include("pyfncall.jl")
 # for now we can define "get".
 
 function get(o::PyObject, returntype::TypeTuple, k, default)
-    r = ccall((@pysym :PyObject_GetItem), PyPtr, (PyPtr,PyPtr), o,PyObject(k))
+    r = @pyccall(:PyObject_GetItem, PyPtr, (PyPtr,PyPtr), o,PyObject(k))
     if r == C_NULL
         pyerr_clear()
         default

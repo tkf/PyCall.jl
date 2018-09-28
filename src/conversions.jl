@@ -595,7 +595,7 @@ end
 # Dictionary conversions (copies)
 
 function PyObject(d::AbstractDict)
-    o = PyObject(@pycheckn ccall((@pysym :PyDict_New), PyPtr, ()))
+    o = PyObject(@pycheckn @pyccall(:PyDict_New, PyPtr, ()))
     for k in keys(d)
         @pycheckz ccall((@pysym :PyDict_SetItem), Cint, (PyPtr,PyPtr,PyPtr),
                          o, PyObject(k), PyObject(d[k]))

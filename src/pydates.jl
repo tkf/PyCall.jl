@@ -92,7 +92,7 @@ PyObject(d::Dates.DateTime) =
                              pynothing[], DateTimeType[]))
 
 PyDelta_FromDSU(days, seconds, useconds) =
-    PyObject(@pycheckn ccall(Delta_FromDelta[], PyPtr,
+    PyObject(@pycheckn @ccall(Delta_FromDelta[], PyPtr,
                              (Cint, Cint, Cint, Cint, PyPtr),
                              days, seconds, useconds,
                              1, DeltaType[]))

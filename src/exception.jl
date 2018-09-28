@@ -51,7 +51,7 @@ end
 # Conversion of Python exceptions into Julia exceptions
 
 # whether a Python exception has occurred
-pyerr_occurred() = ccall((@pysym :PyErr_Occurred), PyPtr, ()) != C_NULL
+pyerr_occurred() = @pyccall(:PyErr_Occurred, PyPtr, ()) != C_NULL
 
 # call to discard Python exceptions
 pyerr_clear() = ccall((@pysym :PyErr_Clear), Cvoid, ())

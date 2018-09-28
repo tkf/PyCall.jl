@@ -373,7 +373,7 @@ function pyjlwrap_getattr(self_::PyPtr, attr__::PyPtr)
             return pystealref!(PyObject(nothing))
         elseif startswith(attr, "__")
             # TODO: handle __code__/func_code (issue #268)
-            return ccall(@pysym(:PyObject_GenericGetAttr), PyPtr, (PyPtr,PyPtr), self_, attr__)
+            return @pyccall(:PyObject_GenericGetAttr, PyPtr, (PyPtr,PyPtr), self_, attr__)
         else
             fidx = Base.fieldindex(typeof(f), Symbol(attr), false)
             if fidx != 0

@@ -334,7 +334,7 @@ function py2array(T, A::Array{TA,N}, o::PyObject,
         A[i] = convert(T, o)
         return A
     elseif dim == N
-        len = @pycheckz ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+        len = @pycheckz @pyccall(:PySequence_Size, Int, (PyPtr,), o)
         if len != size(A, dim)
             error("dimension mismatch in py2array")
         end

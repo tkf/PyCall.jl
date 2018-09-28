@@ -13,7 +13,7 @@
 else
     PyObject(i::Unsigned) = PyObject(@pycheckn @pyccall(:PyLong_FromUnsignedLongLong,
                                                     PyPtr, (Culonglong,), i))
-    PyObject(i::Integer) = PyObject(@pycheckn ccall(@pysym(:PyLong_FromLongLong),
+    PyObject(i::Integer) = PyObject(@pycheckn @pyccall(:PyLong_FromLongLong,
                                                     PyPtr, (Clonglong,), i))
 end
 

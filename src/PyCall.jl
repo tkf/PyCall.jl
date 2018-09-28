@@ -174,7 +174,7 @@ pyisinstance(o::PyObject, t::Union{Ptr{Cvoid},PyPtr}) =
   t != C_NULL && @pyccall(:PyObject_IsInstance, Cint, (PyPtr,PyPtr), o, t) == 1
 
 pyquery(q::Ptr{Cvoid}, o::PyObject) =
-  ccall(q, Cint, (PyPtr,), o) == 1
+  @ccall(q, Cint, (PyPtr,), o) == 1
 
 # conversion to pass PyObject as ccall arguments:
 unsafe_convert(::Type{PyPtr}, po::PyObject) = po.o

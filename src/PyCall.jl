@@ -228,7 +228,7 @@ pystr(o::PyObject) = convert(AbstractString,
 Return a string representation of `o` corresponding to `repr(o)` in Python.
 """
 pyrepr(o::PyObject) = convert(AbstractString,
-                              PyObject(@pycheckn ccall((@pysym :PyObject_Repr), PyPtr,
+                              PyObject(@pycheckn @pyccall(:PyObject_Repr, PyPtr,
                                                        (PyPtr,), o)))
 
 """

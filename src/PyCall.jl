@@ -426,7 +426,7 @@ end
 function _pyimport(name::AbstractString)
     cookie = ActivatePyActCtx()
     try
-        return PyObject(ccall((@pysym :PyImport_ImportModule), PyPtr, (Cstring,), name))
+        return PyObject(@pyccall(:PyImport_ImportModule, PyPtr, (Cstring,), name))
     finally
         DeactivatePyActCtx(cookie)
     end

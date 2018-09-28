@@ -46,7 +46,7 @@ else
     end
     function convert(::Type{Integer}, po::PyObject)
         overflow = Ref{Cint}()
-        val = @pycheck ccall(@pysym(:PyLong_AsLongLongAndOverflow), Clonglong, (PyPtr, Ref{Cint}), po, overflow)
+        val = @pycheck @pyccall(:PyLong_AsLongLongAndOverflow, Clonglong, (PyPtr, Ref{Cint}), po, overflow)
         iszero(overflow[]) || return convert(BigInt, po)
         return val
     end

@@ -5,7 +5,7 @@ const Py_eval_input = 258
 const _maindict = PyDict{String,PyObject,false}(PyNULL()) # cache of __main__ module dictionary
 function maindict()
     if ispynull(_maindict.o)
-        _maindict.o = pyincref(@pycheckn ccall((@pysym :PyModule_GetDict), PyPtr, (PyPtr,), pyimport("__main__")))
+        _maindict.o = pyincref(@pycheckn @pyccall(:PyModule_GetDict, PyPtr, (PyPtr,), pyimport("__main__")))
     end
     return _maindict
 end

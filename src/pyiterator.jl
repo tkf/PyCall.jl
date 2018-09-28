@@ -129,7 +129,7 @@ end
             pyerr_clear()
             return Ref(o)
         else
-            ccall(@pysym(:Py_DecRef), Cvoid, (PyPtr,), iter)
+            @pyccall(:Py_DecRef, Cvoid, (PyPtr,), iter)
             return collect(o)
         end
     end

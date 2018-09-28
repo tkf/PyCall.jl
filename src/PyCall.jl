@@ -772,7 +772,7 @@ end
 _getindex(o::PyObject, i::Integer, T) = convert(T, PyObject(@pycheckn @pyccall(:PySequence_GetItem, PyPtr, (PyPtr, Int), o, ind2py(i))))
 getindex(o::PyObject, i::Integer) = _getindex(o, i, PyAny)
 function setindex!(o::PyObject, v, i::Integer)
-    @pycheckz ccall((@pysym :PySequence_SetItem), Cint, (PyPtr, Int, PyPtr), o, ind2py(i), PyObject(v))
+    @pycheckz @pyccall(:PySequence_SetItem, Cint, (PyPtr, Int, PyPtr), o, ind2py(i), PyObject(v))
     v
 end
 getindex(o::PyObject, i1::Integer, i2::Integer) = get(o, (ind2py(i1),ind2py(i2)))

@@ -139,7 +139,7 @@ function __init__()
                                          (Cint, Ref{Ptr{Cvoid}}, Cint),
                                          1, pointer_from_objref(ref0), 0)
         else
-            ccall(@pysym(:PySys_SetArgvEx), Cvoid, (Cint, Ptr{Cwstring}, Cint),
+            @pyccall(:PySys_SetArgvEx, Cvoid, (Cint, Ptr{Cwstring}, Cint),
                   1, [""], 0)
         end
 

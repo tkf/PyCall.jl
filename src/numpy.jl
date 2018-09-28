@@ -449,7 +449,7 @@ function convert(::Type{Array{T, 1}}, o::PyObject) where T<:NPY_TYPES
     try
         copy(PyArray{T, 1}(o, PyArray_Info(o))) # will check T and N vs. info
     catch
-        len = @pycheckz ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+        len = @pycheckz @pyccall(:PySequence_Size, Int, (PyPtr,), o)
         A = Array{pyany_toany(T)}(undef, len)
         py2array(T, A, o, 1, 1)
     end

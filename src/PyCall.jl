@@ -171,7 +171,7 @@ pyisinstance(o::PyObject, t::PyObject) =
   !ispynull(t) && @pyccall(:PyObject_IsInstance, Cint, (PyPtr,PyPtr), o, t.o) == 1
 
 pyisinstance(o::PyObject, t::Union{Ptr{Cvoid},PyPtr}) =
-  t != C_NULL && ccall((@pysym :PyObject_IsInstance), Cint, (PyPtr,PyPtr), o, t) == 1
+  t != C_NULL && @pyccall(:PyObject_IsInstance, Cint, (PyPtr,PyPtr), o, t) == 1
 
 pyquery(q::Ptr{Cvoid}, o::PyObject) =
   ccall(q, Cint, (PyPtr,), o) == 1

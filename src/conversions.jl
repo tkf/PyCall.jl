@@ -40,7 +40,7 @@ elseif pyversion < v"3.2"
 else
     function convert(::Type{T}, po::PyObject) where {T<:Integer}
         overflow = Ref{Cint}()
-        val = T(@pycheck ccall(@pysym(:PyLong_AsLongLongAndOverflow), Clonglong, (PyPtr, Ref{Cint}), po, overflow))
+        val = T(@pycheck @pyccall(:PyLong_AsLongLongAndOverflow, Clonglong, (PyPtr, Ref{Cint}), po, overflow))
         iszero(overflow[]) || throw(InexactError(:convert, T, po))
         return val
     end

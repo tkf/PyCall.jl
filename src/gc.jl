@@ -34,7 +34,7 @@ function pyembed(po::PyObject, jo::Any)
         cf = @cfunction(weakref_callback, PyPtr, (PyPtr,PyPtr))
         weakref_callback_meth[] = PyMethodDef("weakref_callback", cf, METH_O)
         copy!(weakref_callback_obj,
-              PyObject(@pycheckn ccall((@pysym :PyCFunction_NewEx), PyPtr,
+              PyObject(@pycheckn @pyccall(:PyCFunction_NewEx, PyPtr,
                                        (Ref{PyMethodDef}, Ptr{Cvoid}, Ptr{Cvoid}),
                                        weakref_callback_meth, C_NULL, C_NULL)))
     end

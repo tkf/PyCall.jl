@@ -17,7 +17,7 @@ else
                                                     PyPtr, (Clonglong,), i))
 end
 
-PyObject(b::Bool) = PyObject(@pycheckn ccall((@pysym :PyBool_FromLong),
+PyObject(b::Bool) = PyObject(@pycheckn @pyccall(:PyBool_FromLong,
                                              PyPtr, (Clong,), b))
 
 PyObject(r::Real) = PyObject(@pycheckn ccall((@pysym :PyFloat_FromDouble),

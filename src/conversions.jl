@@ -107,7 +107,7 @@ function PyObject(a::DenseVector{UInt8})
         return array2py(a) # fallback to non-NumPy version
     end
   end
-  PyObject(@pycheckn ccall((@pysym :PyByteArray_FromStringAndSize),
+  PyObject(@pycheckn @pyccall(:PyByteArray_FromStringAndSize,
                            PyPtr, (Ptr{UInt8}, Int), a, length(a)))
 end
 

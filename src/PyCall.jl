@@ -168,7 +168,7 @@ function Base.copy!(dest::PyObject, src::PyObject)
 end
 
 pyisinstance(o::PyObject, t::PyObject) =
-  !ispynull(t) && ccall((@pysym :PyObject_IsInstance), Cint, (PyPtr,PyPtr), o, t.o) == 1
+  !ispynull(t) && @pyccall(:PyObject_IsInstance, Cint, (PyPtr,PyPtr), o, t.o) == 1
 
 pyisinstance(o::PyObject, t::Union{Ptr{Cvoid},PyPtr}) =
   t != C_NULL && ccall((@pysym :PyObject_IsInstance), Cint, (PyPtr,PyPtr), o, t) == 1

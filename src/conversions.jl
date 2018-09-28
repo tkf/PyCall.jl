@@ -506,7 +506,7 @@ function delete!(d::PyDict{K,V,true}, k) where {K,V}
     return d
 end
 function delete!(d::PyDict{K,V,false}, k) where {K,V}
-    e = ccall(@pysym(:PyObject_DelItem), Cint, (PyPtr, PyPtr), d, PyObject(k))
+    e = @pyccall(:PyObject_DelItem, Cint, (PyPtr, PyPtr), d, PyObject(k))
     e == -1 && pyerr_clear() # delete! ignores errors in Julia
     return d
 end

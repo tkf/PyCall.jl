@@ -124,7 +124,7 @@ end
 
 @static if isdefined(Base.Broadcast, :broadcastable)
     function Base.Broadcast.broadcastable(o::PyObject)
-        iter = ccall((@pysym :PyObject_GetIter), PyPtr, (PyPtr,), o)
+        iter = @pyccall(:PyObject_GetIter, PyPtr, (PyPtr,), o)
         if iter == C_NULL
             pyerr_clear()
             return Ref(o)

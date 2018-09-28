@@ -47,9 +47,7 @@ function _pyjlwrap_call(f, args_::PyPtr, kw_::PyPtr)
 end
 
 pyjlwrap_call(self_::PyPtr, args_::PyPtr, kw_::PyPtr) =
-    reenable_sigint() do
-        _pyjlwrap_call(unsafe_pyjlwrap_to_objref(self_), args_, kw_)
-    end
+    _pyjlwrap_call(unsafe_pyjlwrap_to_objref(self_), args_, kw_)
 
 ################################################################
 # allow the user to convert a Julia function into a Python

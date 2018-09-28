@@ -84,7 +84,7 @@ function convert(::Type{T}, po::PyObject) where T<:AbstractString
         convert(T, PyObject(@pycheckn @pyccall(PyUnicode_AsUTF8String,
                                              PyPtr, (PyPtr,), po)))
     else
-        @pycheckz ccall(@pysym(PyString_AsStringAndSize),
+        @pycheckz @pyccall(PyString_AsStringAndSize,
                         Cint, (PyPtr, Ptr{Ptr{UInt8}}, Ptr{Int}),
                         po, _ps_ptr, _ps_len)
         convert(T, unsafe_string(_ps_ptr[1], _ps_len[1]))

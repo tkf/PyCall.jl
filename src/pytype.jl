@@ -404,7 +404,7 @@ function pyjlwrap_type!(init::Function, to::PyTypeObject, name::AbstractString)
     PyTypeObject!(to, name, sz) do t::PyTypeObject
         # TODO change to `Ref{PyTypeObject}` when 0.6 is dropped.
         t.tp_base = ccall(:jl_value_ptr, Ptr{Cvoid}, (Any,), jlWrapType)
-        ccall((@pysym :Py_IncRef), Cvoid, (Any,), jlWrapType)
+        @pyccall(:Py_IncRef, Cvoid, (Any,), jlWrapType)
         init(t)
     end
 end

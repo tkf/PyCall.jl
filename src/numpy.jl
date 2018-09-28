@@ -54,7 +54,7 @@ function npyinitialize()
                                      Ptr{Ptr{Cvoid}}, (PyPtr,),
                                      npy_multiarray["_ARRAY_API"])
     else
-        PyArray_API = @pycheck ccall((@pysym :PyCapsule_GetPointer),
+        PyArray_API = @pycheck @pyccall(:PyCapsule_GetPointer,
                                      Ptr{Ptr{Cvoid}}, (PyPtr,Ptr{Cvoid}),
                                      npy_multiarray["_ARRAY_API"], C_NULL)
     end

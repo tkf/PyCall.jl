@@ -808,7 +808,7 @@ function push!(a::PyObject, item)
 end
 
 function insert!(a::PyObject, i::Integer, item)
-    @pycheckz ccall((@pysym :PyList_Insert), Cint, (PyPtr, Int, PyPtr),
+    @pycheckz @pyccall(:PyList_Insert, Cint, (PyPtr, Int, PyPtr),
                      a, ind2py(i), PyObject(item))
     a
 end

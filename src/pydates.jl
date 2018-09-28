@@ -83,7 +83,7 @@ PyObject(d::Dates.Date) =
                              DateType[]))
 
 PyObject(d::Dates.DateTime) =
-    PyObject(@pycheckn ccall(DateTime_FromDateAndTime[], PyPtr,
+    PyObject(@pycheckn @ccall(DateTime_FromDateAndTime[], PyPtr,
                              (Cint, Cint, Cint, Cint, Cint, Cint, Cint,
                               PyPtr, PyPtr),
                              Dates.year(d), Dates.month(d), Dates.day(d),

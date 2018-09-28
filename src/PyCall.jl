@@ -786,7 +786,7 @@ lastindex(o::PyObject) = length(o)
 
 function splice!(a::PyObject, i::Integer)
     v = a[i]
-    @pycheckz ccall((@pysym :PySequence_DelItem), Cint, (PyPtr, Int), a, i-1)
+    @pycheckz @pyccall(:PySequence_DelItem, Cint, (PyPtr, Int), a, i-1)
     v
 end
 

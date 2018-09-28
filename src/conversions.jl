@@ -365,7 +365,7 @@ function pyarray_dims(o::PyObject, forcelist=true)
     if !(forcelist || pyisinstance(o, @pyglobalobj :PyList_Type))
         return () # too many non-List types can pretend to be sequences
     end
-    len = ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+    len = @pyccall(:PySequence_Size, Int, (PyPtr,), o)
     if len == 0
         return (0,)
     end

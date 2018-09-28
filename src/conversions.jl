@@ -395,7 +395,7 @@ function py2array(T, o::PyObject)
 end
 
 function convert(::Type{Vector{T}}, o::PyObject) where T
-    len = ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+    len = @pyccall(:PySequence_Size, Int, (PyPtr,), o)
     if len < 0 || # not a sequence
        len+1 < 0  # object pretending to be a sequence of infinite length
         pyerr_clear()

@@ -126,7 +126,7 @@ end
 function pyraise(e)
     eT = typeof(e)
     pyeT = haskey(pyexc::Dict, eT) ? pyexc[eT] : pyexc[Exception]
-    ccall((@pysym :PyErr_SetString), Cvoid, (PyPtr, Cstring),
+    @pyccall(:PyErr_SetString, Cvoid, (PyPtr, Cstring),
           pyeT, string("Julia exception: ", e))
 end
 

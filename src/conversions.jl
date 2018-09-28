@@ -512,7 +512,7 @@ function delete!(d::PyDict{K,V,false}, k) where {K,V}
 end
 
 function empty!(d::PyDict{K,V,true}) where {K,V}
-    @pycheck ccall((@pysym :PyDict_Clear), Cvoid, (PyPtr,), d)
+    @pycheck @pyccall(:PyDict_Clear, Cvoid, (PyPtr,), d)
     return d
 end
 function empty!(d::PyDict{K,V,false}) where {K,V}

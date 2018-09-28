@@ -540,7 +540,7 @@ end
     Base.start(d::PyDict{K,V,true}) where {K,V} = PyDict_Iterator(Ref{PyPtr}(), Ref{PyPtr}(), Ref(0), 0, length(d))
     Base.done(d::PyDict{K,V,true}, itr::PyDict_Iterator) where {K,V} = itr.i >= itr.len
     function Base.next(d::PyDict{K,V,true}, itr::PyDict_Iterator) where {K,V}
-        if 0 == ccall((@pysym :PyDict_Next), Cint,
+        if 0 == @pyccall(:PyDict_Next, Cint,
                       (PyPtr, Ref{Int}, Ref{PyPtr}, Ref{PyPtr}),
                       d, itr.pa, itr.ka, itr.va)
             error("unexpected end of PyDict_Next")

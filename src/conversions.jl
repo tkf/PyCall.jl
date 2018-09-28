@@ -56,7 +56,7 @@ convert(::Type{Bool}, po::PyObject) =
     0 != @pycheck @pyccall(:PyObject_IsTrue, Cint, (PyPtr,), po)
 
 convert(::Type{T}, po::PyObject) where {T<:Real} =
-    T(@pycheck ccall(@pysym(:PyFloat_AsDouble), Cdouble, (PyPtr,), po))
+    T(@pycheck @pyccall(:PyFloat_AsDouble, Cdouble, (PyPtr,), po))
 
 convert(::Type{T}, po::PyObject) where T<:Complex =
     T(@pycheck ccall(@pysym(:PyComplex_AsCComplex), Complex{Cdouble}, (PyPtr,), po))

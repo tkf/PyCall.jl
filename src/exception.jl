@@ -18,7 +18,7 @@ struct PyError <: Exception
         # equivalent of passing C pointers &exc[1], &exc[2], &exc[3]:
         @pyccall(:PyErr_Fetch, Cvoid, (UInt,UInt,UInt),
               pexc, pexc + sizeof(PyPtr), pexc + 2*sizeof(PyPtr))
-        ccall((@pysym :PyErr_NormalizeException), Cvoid, (UInt,UInt,UInt),
+        @pyccall(:PyErr_NormalizeException, Cvoid, (UInt,UInt,UInt),
               pexc, pexc + sizeof(PyPtr), pexc + 2*sizeof(PyPtr))
         new(msg, PyObject(exc[1]), PyObject(exc[2]), PyObject(exc[3]))
     end

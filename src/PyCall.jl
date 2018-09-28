@@ -737,7 +737,7 @@ function get(o::PyObject, returntype::TypeTuple, k, default)
 end
 
 get(o::PyObject, returntype::TypeTuple, k) =
-    convert(returntype, PyObject(@pycheckn ccall((@pysym :PyObject_GetItem),
+    convert(returntype, PyObject(@pycheckn @pyccall(:PyObject_GetItem,
                                  PyPtr, (PyPtr,PyPtr), o, PyObject(k))))
 
 get(o::PyObject, k, default) = get(o, PyAny, k, default)

@@ -204,7 +204,7 @@ isvatuple(T::DataType) = !isempty(T.parameters) && Base.isvarargtype(T.parameter
 
 function convert(tt::Type{T}, o::PyObject) where T<:Tuple
     isva = isvatuple(T)
-    len = @pycheckz ccall((@pysym :PySequence_Size), Int, (PyPtr,), o)
+    len = @pycheckz @pyccall(:PySequence_Size, Int, (PyPtr,), o)
     if !istuplen(tt, isva, len)
         throw(BoundsError())
     end

@@ -802,7 +802,7 @@ end
 
 # The following operations only work for the list type and subtypes thereof:
 function push!(a::PyObject, item)
-    @pycheckz ccall((@pysym :PyList_Append), Cint, (PyPtr, PyPtr),
+    @pycheckz @pyccall(:PyList_Append, Cint, (PyPtr, PyPtr),
                      a, PyObject(item))
     a
 end

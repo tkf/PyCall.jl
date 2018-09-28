@@ -59,7 +59,7 @@ convert(::Type{T}, po::PyObject) where {T<:Real} =
     T(@pycheck @pyccall(:PyFloat_AsDouble, Cdouble, (PyPtr,), po))
 
 convert(::Type{T}, po::PyObject) where T<:Complex =
-    T(@pycheck ccall(@pysym(:PyComplex_AsCComplex), Complex{Cdouble}, (PyPtr,), po))
+    T(@pycheck @pyccall(:PyComplex_AsCComplex, Complex{Cdouble}, (PyPtr,), po))
 
 convert(::Type{Nothing}, po::PyObject) = nothing
 

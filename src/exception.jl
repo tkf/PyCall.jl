@@ -131,7 +131,7 @@ function pyraise(e)
 end
 
 function pyraise(e::PyError)
-    ccall((@pysym :PyErr_Restore), Cvoid, (PyPtr, PyPtr, PyPtr),
+    @pyccall(:PyErr_Restore, Cvoid, (PyPtr, PyPtr, PyPtr),
           e.T, e.val, e.traceback)
     e.T.o = e.val.o = e.traceback.o = C_NULL # refs were stolen
 end

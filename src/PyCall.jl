@@ -327,7 +327,7 @@ function haskey(o::PyObject, s::Union{Symbol,AbstractString})
     if ispynull(o)
         throw(ArgumentError("haskey of NULL PyObject"))
     end
-    return 1 == ccall((@pysym :PyObject_HasAttrString), Cint,
+    return 1 == @pyccall(:PyObject_HasAttrString, Cint,
                       (PyPtr, Cstring), o, s)
 end
 

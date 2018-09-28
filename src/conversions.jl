@@ -33,7 +33,7 @@ PyObject(n::Nothing) = pyerr_check("PyObject(nothing)", pyincref(pynothing[]))
 
 @static if pyversion < v"3"
     convert(::Type{T}, po::PyObject) where {T<:Integer} =
-        T(@pycheck ccall(@pysym(:PyInt_AsSsize_t), Int, (PyPtr,), po))
+        T(@pycheck @pyccall(:PyInt_AsSsize_t, Int, (PyPtr,), po))
 elseif pyversion < v"3.2"
     convert(::Type{T}, po::PyObject) where {T<:Integer} =
         T(@pycheck ccall(@pysym(:PyLong_AsLongLong), Clonglong, (PyPtr,), po))

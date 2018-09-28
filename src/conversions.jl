@@ -6,7 +6,7 @@
 # conversions from Julia types to PyObject:
 
 @static if pyversion < v"3"
-    PyObject(i::Unsigned) = PyObject(@pycheckn ccall(@pysym(:PyInt_FromSize_t),
+    PyObject(i::Unsigned) = PyObject(@pycheckn @pyccall(:PyInt_FromSize_t,
                                                     PyPtr, (UInt,), i))
     PyObject(i::Integer) = PyObject(@pycheckn ccall(@pysym(:PyInt_FromSsize_t),
                                                     PyPtr, (Int,), i))

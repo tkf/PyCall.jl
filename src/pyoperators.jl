@@ -67,7 +67,7 @@ for (op,py) in ((:<, Py_LT), (:<=, Py_LE), (:(==), Py_EQ), (:!=, Py_NE),
                 return Bool(@pycheckz @pyccall(:PyObject_RichCompareBool, Cint,
                                             (PyPtr, PyPtr, Cint), o1, o2, $py))
             else # other operations may return a PyObject
-                return PyAny(PyObject(@pycheckn ccall((@pysym :PyObject_RichCompare), PyPtr,
+                return PyAny(PyObject(@pycheckn @pyccall(:PyObject_RichCompare, PyPtr,
                                                       (PyPtr, PyPtr, Cint), o1, o2, $py)))
             end
         end

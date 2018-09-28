@@ -117,7 +117,7 @@ it is equivalent to a `PyNULL()` object.
 ispynull(o::PyObject) = o.o == PyPtr_NULL
 
 function pydecref_(o::Union{PyPtr,PyObject})
-    ccall(@pysym(:Py_DecRef), Cvoid, (PyPtr,), o)
+    @pyccall(:Py_DecRef, Cvoid, (PyPtr,), o)
     return o
 end
 

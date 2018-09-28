@@ -558,7 +558,7 @@ end
     Base.start(d::PyDict{K,V,false}) where {K,V} = start(pycall(d.o["items"], PyObject))
     Base.done(d::PyDict{K,V,false}, s) where {K,V} = done(d.o, s)
     function Base.next(d::PyDict{K,V,false}, s) where {K,V}
-        nxt = PyObject(@pycheck ccall((@pysym :PyIter_Next), PyPtr, (PyPtr,), s[2]))
+        nxt = PyObject(@pycheck @pyccall(:PyIter_Next, PyPtr, (PyPtr,), s[2]))
         return (convert(Pair{K,V}, s[1]), (nxt, s[2]))
     end
 else

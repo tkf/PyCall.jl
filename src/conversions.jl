@@ -274,7 +274,7 @@ splice!(a::PyVector, i::Integer) = splice!(a.o, i)
 function splice!(a::PyVector{T}, indices::AbstractVector{I}) where {T,I<:Integer}
     v = pyany_toany(T)[a[i] for i in indices]
     for i in sort(indices, rev=true)
-        @pycheckz ccall((@pysym :PySequence_DelItem), Cint, (PyPtr, Int), a, i-1)
+        @pycheckz @pyccall(:PySequence_DelItem, Cint, (PyPtr, Int), a, i-1)
     end
     v
 end

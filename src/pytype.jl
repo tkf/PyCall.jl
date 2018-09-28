@@ -312,8 +312,8 @@ function PyTypeObject!(init::Function, t::PyTypeObject, name::AbstractString, ba
         t.tp_new = @pyglobal :PyType_GenericNew
     end
     # TODO change to `Ref{PyTypeObject}` when 0.6 is dropped.
-    @pycheckz ccall((@pysym :PyType_Ready), Cint, (Any,), t)
-    ccall((@pysym :Py_IncRef), Cvoid, (Any,), t)
+    @pycheckz @pyccall(:PyType_Ready, Cint, (Any,), t)
+    @pyccall(:Py_IncRef, Cvoid, (Any,), t)
     return t
 end
 

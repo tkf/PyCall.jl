@@ -564,7 +564,7 @@ end
 else
     function Base.iterate(d::PyDict{K,V,true}, itr=PyDict_Iterator(Ref{PyPtr}(), Ref{PyPtr}(), Ref(0), 0, length(d))) where {K,V}
         itr.i >= itr.len && return nothing
-        if 0 == ccall((@pysym :PyDict_Next), Cint,
+        if 0 == @pyccall(:PyDict_Next, Cint,
                       (PyPtr, Ref{Int}, Ref{PyPtr}, Ref{PyPtr}),
                       d, itr.pa, itr.ka, itr.va)
             error("unexpected end of PyDict_Next")

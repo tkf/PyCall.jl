@@ -54,7 +54,7 @@ end
 pyerr_occurred() = @pyccall(:PyErr_Occurred, PyPtr, ()) != C_NULL
 
 # call to discard Python exceptions
-pyerr_clear() = ccall((@pysym :PyErr_Clear), Cvoid, ())
+pyerr_clear() = @pyccall(:PyErr_Clear, Cvoid, ())
 
 function pyerr_check(msg::AbstractString, val::Any)
     pyerr_occurred() && throw(PyError(msg))

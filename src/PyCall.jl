@@ -219,7 +219,7 @@ PyObject(o::PyPtr, keep::Any) = pyembed(PyObject(o), keep)
 Return a string representation of `o` corresponding to `str(o)` in Python.
 """
 pystr(o::PyObject) = convert(AbstractString,
-                             PyObject(@pycheckn ccall((@pysym :PyObject_Str), PyPtr,
+                             PyObject(@pycheckn @pyccall(:PyObject_Str, PyPtr,
                                                       (PyPtr,), o)))
 
 """

@@ -23,7 +23,7 @@ function _pycall!(ret::PyObject, o::Union{PyObject,PyPtr}, args, nargs::Int=leng
         for i = 1:nargs
             pyarg = PyObject(args[i])
             pyincref(pyarg) # PyTuple_SetItem steals the reference
-            @pycheckz ccall((@pysym :PyTuple_SetItem), Cint,
+            @pycheckz @pyccall(:PyTuple_SetItem, Cint,
                                 (PyPtr,Int,PyPtr), pyargsptr, i-1, pyarg)
         end
         return __pycall!(ret, pyargsptr, o, kw) #::PyObject

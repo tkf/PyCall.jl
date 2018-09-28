@@ -108,7 +108,7 @@ const PyBUF_INDIRECT       = convert(Cint, 0x0100) | PyBUF_STRIDES
 function PyBuffer(o::Union{PyObject,PyPtr}, flags=PyBUF_SIMPLE)
     b = PyBuffer()
     # TODO change to `Ref{PyBuffer}` when 0.6 is dropped.
-    @pycheckz ccall((@pysym :PyObject_GetBuffer), Cint,
+    @pycheckz @pyccall(:PyObject_GetBuffer, Cint,
                      (PyPtr, Any, Cint), o, b, flags)
     return b
 end

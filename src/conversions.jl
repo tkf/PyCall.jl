@@ -421,7 +421,7 @@ include("numpy.jl")
 function is_mapping_object(o::PyObject)
     pyisinstance(o, @pyglobalobj :PyDict_Type) ||
     (pyquery((@pyglobal :PyMapping_Check), o) &&
-      ccall((@pysym :PyObject_HasAttrString), Cint, (PyPtr,Ptr{UInt8}), o, "items") == 1)
+      @pyccall(:PyObject_HasAttrString, Cint, (PyPtr,Ptr{UInt8}), o, "items") == 1)
 end
 
 """

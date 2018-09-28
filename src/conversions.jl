@@ -483,7 +483,7 @@ get(d::PyDict{K,V}, k, default) where {K,V} = get(d.o, V, k, default)
 
 function pop!(d::PyDict{K,V,true}, k) where {K,V}
     v = d[k]
-    @pycheckz ccall(@pysym(:PyDict_DelItem), Cint, (PyPtr, PyPtr), d, PyObject(k))
+    @pycheckz @pyccall(:PyDict_DelItem, Cint, (PyPtr, PyPtr), d, PyObject(k))
     return v
 end
 function pop!(d::PyDict{K,V,false}, k) where {K,V}

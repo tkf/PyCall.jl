@@ -81,7 +81,7 @@ const _ps_ptr= Ptr{UInt8}[C_NULL]
 const _ps_len = Int[0]
 function convert(::Type{T}, po::PyObject) where T<:AbstractString
     if pyisinstance(po, @pyglobalobj :PyUnicode_Type)
-        convert(T, PyObject(@pycheckn ccall(@pysym(PyUnicode_AsUTF8String),
+        convert(T, PyObject(@pycheckn @pyccall(PyUnicode_AsUTF8String,
                                              PyPtr, (PyPtr,), po)))
     else
         @pycheckz ccall(@pysym(PyString_AsStringAndSize),

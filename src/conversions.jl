@@ -474,7 +474,7 @@ Base.keytype(::Type{PyDict{K,V}}) where {K,V} = pyany_toany(K)
 Base.valtype(::Type{PyDict{K,V}}) where {K,V} = pyany_toany(V)
 
 function setindex!(d::PyDict, v, k)
-    @pycheckz ccall((@pysym :PyObject_SetItem), Cint, (PyPtr, PyPtr, PyPtr),
+    @pycheckz @pyccall(:PyObject_SetItem, Cint, (PyPtr, PyPtr, PyPtr),
                      d, PyObject(k), PyObject(v))
     v
 end

@@ -210,7 +210,7 @@ function convert(tt::Type{T}, o::PyObject) where T<:Tuple
     end
     ntuple((i ->
             convert(tuptype(T, isva, i),
-                    PyObject(ccall((@pysym :PySequence_GetItem), PyPtr,
+                    PyObject(@pyccall(:PySequence_GetItem, PyPtr,
                                    (PyPtr, Int), o, i-1)))),
            len)
 end

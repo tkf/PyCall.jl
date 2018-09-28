@@ -315,7 +315,7 @@ function setindex!(o::PyObject, v, s::Union{Symbol,AbstractString})
     if ispynull(o)
         throw(ArgumentError("assign of NULL PyObject"))
     end
-    if -1 == ccall((@pysym :PyObject_SetAttrString), Cint,
+    if -1 == @pyccall(:PyObject_SetAttrString, Cint,
                    (PyPtr, Cstring, PyPtr), o, s, PyObject(v))
         pyerr_clear()
         throw(KeyError(s))

@@ -11,7 +11,7 @@
     PyObject(i::Integer) = PyObject(@pycheckn @pyccall(:PyInt_FromSsize_t,
                                                     PyPtr, (Int,), i))
 else
-    PyObject(i::Unsigned) = PyObject(@pycheckn ccall(@pysym(:PyLong_FromUnsignedLongLong),
+    PyObject(i::Unsigned) = PyObject(@pycheckn @pyccall(:PyLong_FromUnsignedLongLong,
                                                     PyPtr, (Culonglong,), i))
     PyObject(i::Integer) = PyObject(@pycheckn ccall(@pysym(:PyLong_FromLongLong),
                                                     PyPtr, (Clonglong,), i))

@@ -744,7 +744,7 @@ get(o::PyObject, k, default) = get(o, PyAny, k, default)
 get(o::PyObject, k) = get(o, PyAny, k)
 
 function delete!(o::PyObject, k)
-    e = ccall((@pysym :PyObject_DelItem), Cint, (PyPtr, PyPtr), o, PyObject(k))
+    e = @pyccall(:PyObject_DelItem, Cint, (PyPtr, PyPtr), o, PyObject(k))
     if e == -1
         pyerr_clear() # delete! ignores errors in Julia
     end

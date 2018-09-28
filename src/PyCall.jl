@@ -834,7 +834,7 @@ function append!(a::PyObject, items)
 end
 
 append!(a::PyObject, items::PyObject) =
-    PyObject(@pycheckn ccall((@pysym :PySequence_InPlaceConcat),
+    PyObject(@pycheckn @pyccall(:PySequence_InPlaceConcat,
                              PyPtr, (PyPtr, PyPtr), a, items))
 
 #########################################################################

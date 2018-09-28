@@ -189,7 +189,7 @@ function NpyArray(a::StridedArray{T}, revdims::Bool) where T<:NPY_TYPES
     @npyinitialize
     size_a = revdims ? reverse(size(a)) : size(a)
     strides_a = revdims ? reverse(strides(a)) : strides(a)
-    p = @pycheck ccall(npy_api[:PyArray_New], PyPtr,
+    p = @pycheck @ccall(npy_api[:PyArray_New], PyPtr,
           (PyPtr,Cint,Ptr{Int},Cint, Ptr{Int},Ptr{T}, Cint,Cint,PyPtr),
           npy_api[:PyArray_Type],
           ndims(a), Int[size_a...], npy_type(T),

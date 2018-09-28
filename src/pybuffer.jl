@@ -88,7 +88,7 @@ end
 
 # TODO change to `Ref{PyBuffer}` when 0.6 is dropped.
 iscontiguous(b::PyBuffer) =
-    1 == ccall((@pysym :PyBuffer_IsContiguous), Cint,
+    1 == @pyccall(:PyBuffer_IsContiguous, Cint,
                (Any, Cchar), b, 'A')
 
 #############################################################################

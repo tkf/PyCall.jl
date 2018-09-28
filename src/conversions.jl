@@ -181,7 +181,7 @@ function PyObject(t::Union{Tuple,Pair})
     o = PyObject(@pycheckn @pyccall(:PyTuple_New, PyPtr, (Int,), len))
     for i = 1:len
         oi = PyObject(t[i])
-        @pycheckz ccall((@pysym :PyTuple_SetItem), Cint, (PyPtr,Int,PyPtr),
+        @pycheckz @pyccall(:PyTuple_SetItem, Cint, (PyPtr,Int,PyPtr),
                          o, i-1, oi)
         pyincref(oi) # PyTuple_SetItem steals the reference
     end

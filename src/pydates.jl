@@ -77,7 +77,7 @@ function init_datetime()
 end
 
 PyObject(d::Dates.Date) =
-    PyObject(@pycheckn ccall(Date_FromDate[], PyPtr,
+    PyObject(@pycheckn @ccall(Date_FromDate[], PyPtr,
                              (Cint, Cint, Cint, PyPtr),
                              Dates.year(d), Dates.month(d), Dates.day(d),
                              DateType[]))

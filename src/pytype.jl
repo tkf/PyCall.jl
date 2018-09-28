@@ -443,7 +443,7 @@ function pyjlwrap_new(x::Any)
 end
 
 # TODO change to `Ref{PyTypeObject}` when 0.6 is dropped.
-is_pyjlwrap(o::PyObject) = jlWrapType.tp_new != C_NULL && ccall((@pysym :PyObject_IsInstance), Cint, (PyPtr, Any), o, jlWrapType) == 1
+is_pyjlwrap(o::PyObject) = jlWrapType.tp_new != C_NULL && @pyccall(:PyObject_IsInstance, Cint, (PyPtr, Any), o, jlWrapType) == 1
 
 ################################################################
 # Fallback conversion: if we don't have a better conversion function,

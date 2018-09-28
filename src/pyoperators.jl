@@ -39,7 +39,7 @@ import Base: abs,~
 for (op,py) in ((:+,:PyNumber_Positive), (:-,:PyNumber_Negative),
                 (:abs,:PyNumber_Absolute), (:~, :PyNumber_Invert))
     qpy = QuoteNode(py)
-    @eval $op(a::PyObject) = PyObject(@pycheckn ccall((@pysym $qpy), PyPtr, (PyPtr,), a))
+    @eval $op(a::PyObject) = PyObject(@pycheckn @pyccall($qpy, PyPtr, (PyPtr,), a))
 end
 
 #########################################################################

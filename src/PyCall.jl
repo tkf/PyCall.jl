@@ -752,7 +752,7 @@ function delete!(o::PyObject, k)
 end
 
 function set!(o::PyObject, k, v)
-    @pycheckz ccall((@pysym :PyObject_SetItem), Cint, (PyPtr, PyPtr, PyPtr),
+    @pycheckz @pyccall(:PyObject_SetItem, Cint, (PyPtr, PyPtr, PyPtr),
                      o, PyObject(k), PyObject(v))
     v
 end

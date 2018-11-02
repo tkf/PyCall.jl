@@ -152,7 +152,7 @@ function __init__()
         Py_SetProgramName(libpy_handle, pyversion, current_python())
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     else
-        Py_SetPythonHome(libpy_handle, PYTHONHOME, wPYTHONHOME, pyversion)
+        Py_SetPythonHome(libpy_handle, pyversion, PYTHONHOME)
         Py_SetProgramName(libpy_handle, pyversion, pyprogramname)
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     end

@@ -28,6 +28,7 @@ const __buf_pythonhome = Vector{UInt8}(undef, 1024)
 function Py_SetPythonHome(libpy, pyversion, PYTHONHOME::AbstractString)
     @info "In: Py_SetPythonHome" libpy pyversion PYTHONHOME
     isempty(PYTHONHOME) && return
+    fill!(__buf_pythonhome, 0)
     if pyversion.major < 3
         ccall(Libdl.dlsym(libpy, :Py_SetPythonHome), Cvoid, (Cstring,),
               _preserveas!(__buf_pythonhome, Cstring, PYTHONHOME))
@@ -39,6 +40,7 @@ end
 
 function Py_SetProgramName(libpy, pyversion, programname::AbstractString)
     isempty(programname) && return
+    fill!(__buf_programname, 0)
     if pyversion.major < 3
         ccall(Libdl.dlsym(libpy, :Py_SetProgramName), Cvoid, (Cstring,),
               _preserveas!(__buf_programname, Cstring, programname))

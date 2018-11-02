@@ -148,17 +148,8 @@ function __init__()
         else
             venv_home = pythonhome_of(current_python())
         end
-        if pyversion.major < 3
-            ccall((@pysym :Py_SetPythonHome), Cvoid, (Cstring,),
-                  _preserveas!(__buf_pythonhome, Cstring, venv_home))
-            ccall((@pysym :Py_SetProgramName), Cvoid, (Cstring,),
-                  _preserveas!(__buf_programname, Cstring, current_python()))
-        else
-            ccall((@pysym :Py_SetPythonHome), Cvoid, (Ptr{Cwchar_t},),
-                  _preserveas!(__buf_pythonhome, Cwstring, venv_home))
-            ccall((@pysym :Py_SetProgramName), Cvoid, (Ptr{Cwchar_t},),
-                  _preserveas!(__buf_programname, Cwstring, current_python()))
-        end
+        Py_SetPythonHome(libpy_handle, pyversion, venv_home)
+        Py_SetProgramName(libpy_handle, pyversion, current_python())
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     else
         Py_SetPythonHome(libpy_handle, PYTHONHOME, wPYTHONHOME, pyversion)

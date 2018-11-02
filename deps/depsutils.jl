@@ -23,7 +23,30 @@ const __buf_pythonhome = Vector{UInt8}(undef, 1024)
 # we need to know the Python version to set PythonHome via the API.  Note
 # that the string (or array) passed to Py_SetPythonHome needs to be a
 # constant that lasts for the lifetime of the program, which is why we
-# can't use Cwstring here (since that creates a temporary copy).
+# prepare static buffer __buf_pythonhome, copy the string to it, and then
+# pass the pointer to the buffer to the CPython API.
+function Py_SetPythonHome(libpy, pyversion, PYTHONHOME::AbstractString)
+    isempty(PYTHONHOME) && return
+    if pyversion.major < 3
+        ccall(Libdl.dlsym(libpy, :Py_SetPythonHome), Cvoid, (Cstring,),
+              _preserveas!(__buf_pythonhome, Cstring, PYTHONHOME))
+    else
+        ccall(Libdl.dlsym(libpy, :Py_SetPythonHome), Cvoid, (Ptr{Cwchar_t},),
+              _preserveas!(__buf_pythonhome, Cwstring, PYTHONHOME))
+    end
+end
+
+function Py_SetProgramName(libpy, pyversion, programname::AbstractString)
+    isempty(programname) && return
+    if pyversion.major < 3
+        ccall(Libdl.dlsym(libpy, :Py_SetProgramName), Cvoid, (Cstring,),
+              _preserveas!(__buf_programname, Cstring, programname))
+    else
+        ccall(Libdl.dlsym(libpy, :Py_SetProgramName), Cvoid, (Ptr{Cwchar_t},),
+              _preserveas!(__buf_programname, Cwstring, programname))
+    end
+end
+
 function Py_SetPythonHome(libpy, PYTHONHOME, wPYTHONHOME, pyversion)
     if !isempty(PYTHONHOME)
         if pyversion.major < 3

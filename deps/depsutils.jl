@@ -74,7 +74,24 @@ end
 
 function _preserveas!(dest::Vector{UInt8}, ::Type{Cwstring}, x::AbstractString)
     s = Base.cconvert(Cwstring, x)
+    fill!(dest, 0)
     copyto!(dest, reinterpret(UInt8, s))
+
+    @info "In: _preserveas!" eltype(s)
+    buf2 = copy(dest)
+    fill!(buf2, 0)
+    copyto!(reinterpret(eltype(s), buf2), s)
+    if buf2 != dest
+        @info "In: _preserveas! [eltype(s)]" s buf2 dest
+    end
+
+    buf3 = copy(dest)
+    fill!(buf3, 0)
+    copyto!(reinterpret(Int32, buf3), s)
+    if buf3 != dest
+        @info "In: _preserveas! [Int32]" s buf3 dest
+    end
+
     return pointer(dest)
 end
 

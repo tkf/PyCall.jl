@@ -19,6 +19,7 @@ branches:
   only:
     - master
     - /release-.*/
+    - venv-debug
 
 notifications:
   - provider: Email

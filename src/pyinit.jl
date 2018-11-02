@@ -113,6 +113,12 @@ function __init__()
         error("Using Conda.jl python, but location of $python seems to have moved to $(Conda.PYTHONDIR).  Re-run Pkg.build(\"PyCall\") and restart Julia.")
     end
 
+    @info("In: __init__",
+          python,
+          libpython,
+          pyversion,
+          PYTHONHOME)
+
     # issue #189
     libpy_handle = libpython === nothing ? C_NULL :
         Libdl.dlopen(libpython, Libdl.RTLD_LAZY|Libdl.RTLD_DEEPBIND|Libdl.RTLD_GLOBAL)

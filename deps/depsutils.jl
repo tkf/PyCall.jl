@@ -26,6 +26,7 @@ const __buf_pythonhome = Vector{UInt8}(undef, 1024)
 # prepare static buffer __buf_pythonhome, copy the string to it, and then
 # pass the pointer to the buffer to the CPython API.
 function Py_SetPythonHome(libpy, pyversion, PYTHONHOME::AbstractString)
+    @info "In: Py_SetPythonHome" libpy pyversion PYTHONHOME
     isempty(PYTHONHOME) && return
     if pyversion.major < 3
         ccall(Libdl.dlsym(libpy, :Py_SetPythonHome), Cvoid, (Cstring,),

@@ -121,7 +121,7 @@ end
                 path = joinpath(tmppath, "ϵνιℓ")
             end
             # Create a new virtual environment
-            run(PyCall.python_cmd(`-m venv $path`, python=python))
+            run(PyCall.python_cmd(`-m venv --symlinks $path`, python=python))
             test_venv_has_python(path)
             test_venv_activation(path)
         end

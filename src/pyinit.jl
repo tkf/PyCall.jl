@@ -162,6 +162,7 @@ function __init__()
         Py_SetProgramName(libpy_handle, pyversion, pyprogramname)
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     end
+    @info "Initialization succeeded."
 
     # Will get reinitialized properly on first use
     Compat.Sys.iswindows() && (PyActCtx[] = C_NULL)

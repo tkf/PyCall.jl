@@ -63,29 +63,6 @@ end
 #########################################################################
 # Virtual environment support
 
-# Static buffer to make sure the string passed to libpython persists
-# for the lifetime of the program, as CPython API requires:
-const __venv_programname = Vector{UInt8}(undef, 1024)
-const __venv_pythonhome = Vector{UInt8}(undef, 1024)
-
-"""
-    _preserveas!(dest::Vector{UInt8}, (Cstring|Cwstring), x::String) :: Ptr
-
-Copy `x` as `Cstring` or `Cwstring` to `dest`.
-"""
-function _preserveas!(dest::Vector{UInt8}, ::Type{Cstring}, x::AbstractString)
-    s = transcode(UInt8, String(x))
-    copyto!(dest, s)
-    dest[length(s) + 1] = 0
-    return pointer(dest)
-end
-
-function _preserveas!(dest::Vector{UInt8}, ::Type{Cwstring}, x::AbstractString)
-    s = Base.cconvert(Cwstring, x)
-    copyto!(reinterpret(Int32, dest), s)
-    return pointer(dest)
-end
-
 venv_python(::Nothing) = pyprogramname
 
 function venv_python(venv::AbstractString, suffix::AbstractString = "")
@@ -173,14 +150,14 @@ function __init__()
         end
         if pyversion.major < 3
             ccall((@pysym :Py_SetPythonHome), Cvoid, (Cstring,),
-                  _preserveas!(__venv_pythonhome, Cstring, venv_home))
+                  _preserveas!(__buf_pythonhome, Cstring, venv_home))
             ccall((@pysym :Py_SetProgramName), Cvoid, (Cstring,),
-                  _preserveas!(__venv_programname, Cstring, current_python()))
+                  _preserveas!(__buf_programname, Cstring, current_python()))
         else
             ccall((@pysym :Py_SetPythonHome), Cvoid, (Ptr{Cwchar_t},),
-                  _preserveas!(__venv_pythonhome, Cwstring, venv_home))
+                  _preserveas!(__buf_pythonhome, Cwstring, venv_home))
             ccall((@pysym :Py_SetProgramName), Cvoid, (Ptr{Cwchar_t},),
-                  _preserveas!(__venv_programname, Cwstring, current_python()))
+                  _preserveas!(__buf_programname, Cwstring, current_python()))
         end
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     else

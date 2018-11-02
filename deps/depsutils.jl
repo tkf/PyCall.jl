@@ -104,7 +104,22 @@ end
 
 
 function pythonhome_of(pyprogramname::AbstractString)
-    begin
+    if Compat.Sys.iswindows()
+        # PYTHONHOME tells python where to look for both pure python
+        # and binary modules.  When it is set, it replaces both
+        # `prefix` and `exec_prefix` and we thus need to set it to
+        # both in case they differ. This is also what the
+        # documentation recommends.  However, they are documented
+        # to always be the same on Windows, where it causes
+        # problems if we try to include both.
+        script = """
+        import sys
+        if hasattr(sys, "base_exec_prefix"):
+            sys.stdout.write(sys.base_exec_prefix)
+        else:
+            sys.stdout.write(sys.exec_prefix)
+        """
+    else
         script = """
         import sys
         if hasattr(sys, "base_exec_prefix"):

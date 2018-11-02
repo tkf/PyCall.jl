@@ -162,13 +162,7 @@ function __init__()
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     else
         Py_SetPythonHome(libpy_handle, PYTHONHOME, wPYTHONHOME, pyversion)
-        if !isempty(pyprogramname)
-            if pyversion.major < 3
-                ccall((@pysym :Py_SetProgramName), Cvoid, (Cstring,), pyprogramname)
-            else
-                ccall((@pysym :Py_SetProgramName), Cvoid, (Ptr{Cwchar_t},), wpyprogramname)
-            end
-        end
+        Py_SetProgramName(libpy_handle, pyversion, pyprogramname)
         ccall((@pysym :Py_InitializeEx), Cvoid, (Cint,), 0)
     end
 

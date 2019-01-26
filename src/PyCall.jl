@@ -306,7 +306,7 @@ function getproperty(o::PyObject, s::AbstractString)
     return PyObject(p)
 end
 
-getproperty(o::PyObject, s::Symbol) = convert(PyAny, getproperty(o, string(s)))
+getproperty(o::PyObject, s::Symbol) = convert(PyAny, getproperty(o, String(s)))
 
 propertynames(o::PyObject) = map(x->Symbol(first(x)),
                                 pycall(inspect."getmembers", PyObject, o))
@@ -545,7 +545,7 @@ pyimport(name::Symbol) = pyimport(string(name))
 
 # convert expressions like :math or :(scipy.special) into module name strings
 modulename(s::QuoteNode) = modulename(s.value)
-modulename(s::Symbol) = string(s)
+modulename(s::Symbol) = String(s)
 function modulename(e::Expr)
     if e.head == :.
         string(modulename(e.args[1]), :., modulename(e.args[2]))
@@ -902,6 +902,7 @@ end
 # Expose Python docstrings to the Julia doc system
 
 Docs.getdoc(o::PyObject) = Text(convert(String, o."__doc__"))
+Docs.Binding(o::PyObject, s::Symbol) = getproperty(o, s)
 
 #########################################################################
 

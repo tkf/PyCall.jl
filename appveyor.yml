@@ -1,10 +1,10 @@
 environment:
   matrix:
-  - julia_version: nightly
+  - julia_version: 1.2.0-rc1
     python_version: "27"
-  - julia_version: nightly
+  - julia_version: 1.2.0-rc1
     python_version: "37"
-  - julia_version: nightly
+  - julia_version: 1.2.0-rc1
     python_version: "Conda"
 
 platform:

@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  test-conda:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,9 +26,10 @@ jobs:
       fail-fast: false
     env:
       PYTHON: ""
-    name: Test ${{ matrix.os }} ${{ matrix.architecture }}
+    name: Test
       Julia ${{ matrix.julia-version }}
-      Python Conda
+      Conda
+      ${{ matrix.os }} ${{ matrix.architecture }}
     steps:
       - uses: actions/checkout@v1
       - name: Setup julia

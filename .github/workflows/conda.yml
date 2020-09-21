@@ -2,9 +2,9 @@ name: Test with conda
 
 on:
   push:
-    branches:
-      - master
-    tags: '*'
+#    branches:
+#      - master
+#    tags: '*'
   pull_request:
   workflow_dispatch:
 

@@ -1,4 +1,4 @@
-name: Test with system Python
+name: AOT test
 
 on:
   push:

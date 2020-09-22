@@ -2,9 +2,9 @@ name: AOT test
 
 on:
   push:
-    branches:
-      - master
-    tags: '*'
+#    branches:
+#      - master
+#    tags: '*'
   pull_request:
   workflow_dispatch:
 

@@ -66,15 +66,8 @@ build_script:
   - echo "%PYTHON%"
   - echo "%JL_BUILD_SCRIPT%"
   - ps: if ( -not ( $env:python_version -eq "Conda" )) {
-          try
-          {
-            & $env:PYTHON -m pip install --user --upgrade pip;
-            & $env:PYTHON -m pip install --user numpy;
-          }
-          catch
-          {
-            Write-Warning 'Ignoring pip failures';
-          }
+          & $env:PYTHON -m pip install --user --upgrade pip;
+          & $env:PYTHON -m pip install --user numpy
         }
   - C:\julia\bin\julia -e "%JL_BUILD_SCRIPT%"
 
